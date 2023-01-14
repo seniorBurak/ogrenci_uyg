@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ogrenci_uyg/repository/mesajlar_repository.dart';
 
+import '../models/mesajlar.dart';
+
 class MesajlarSayfasi extends ConsumerStatefulWidget {
   const MesajlarSayfasi({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class _MesajlarSayfasiState extends ConsumerState<MesajlarSayfasi> {
     final mesajlarRepository = ref.watch(mesajlarProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mesajlar'),
+        title: const Text('Mesajlar'),
       ),
       body: Column(
         children: [
@@ -56,7 +58,8 @@ class _MesajlarSayfasiState extends ConsumerState<MesajlarSayfasi> {
               )),
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
-                child: ElevatedButton(onPressed: () {}, child: Text("Gönder")),
+                child: ElevatedButton(
+                    onPressed: () {}, child: const Text("Gönder")),
               )
             ],
           ),
@@ -85,7 +88,7 @@ class MesajGorunumu extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey, width: 2),
               color: Colors.orange.shade50,
-              borderRadius: BorderRadius.all(Radius.circular(15))),
+              borderRadius: const BorderRadius.all(Radius.circular(15))),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Text(mesaj.yazi),

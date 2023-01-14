@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/ogrenci.dart';
 import '../repository/ogrenciler_repository.dart';
 
 class OgrencilerSayfasi extends ConsumerWidget {
