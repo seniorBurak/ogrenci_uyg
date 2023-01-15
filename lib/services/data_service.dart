@@ -16,6 +16,21 @@ class DataService {
       throw Exception('Ogretmen indirilemedi ${response.statusCode}');
     }
   }
+
+  Future<void> ogretmenEkle(Ogretmen ogretmen) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/ogretmen'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(ogretmen.toMap()),
+    );
+    if (response.statusCode == 201) {
+      return;
+    } else {
+      throw Exception('Ogretmen eklenemedi ${response.statusCode}');
+    }
+  }
 }
 
 final dataServiceProvider = Provider((ref) {

@@ -13,4 +13,13 @@ class Ogretmen {
           m['yas'],
           m['cinsiyet'],
         );
+
+  Map toMap() {
+    return {
+      'ad': ad,
+      'soyad': soyad,
+      'yas': yas,
+      'cinsiyet': cinsiyet,
+    };
+  }
 }

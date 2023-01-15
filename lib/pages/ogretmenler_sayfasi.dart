@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ogrenci_uyg/pages/ogretmen/ogretmen_form.dart';
 import 'package:ogrenci_uyg/repository/ogretmenler_repository.dart';
 
 import '../models/ogretmen.dart';
@@ -47,6 +48,20 @@ class OgretmenlerSayfasi extends ConsumerWidget {
             ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final created =
+              await Navigator.of(context).push<bool>(MaterialPageRoute(
+            builder: (context) {
+              return const OgretmenForm();
+            },
+          ));
+          if (created == true) {
+            print('Ogretmenleri yenile');
+          }
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
