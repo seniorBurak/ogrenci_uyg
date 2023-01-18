@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ogrenci_uyg/pages/mesajlar_sayfasi.dart';
@@ -6,6 +8,7 @@ import 'package:ogrenci_uyg/pages/ogretmenler_sayfasi.dart';
 import 'package:ogrenci_uyg/repository/mesajlar_repository.dart';
 import 'package:ogrenci_uyg/repository/ogrenciler_repository.dart';
 import 'package:ogrenci_uyg/repository/ogretmenler_repository.dart';
+import 'package:ogrenci_uyg/ultilies/google_sign_in.dart';
 
 void main() {
   runApp(const ProviderScope(child: OgrenciUyg()));
@@ -21,7 +24,57 @@ class OgrenciUyg extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const AnaSayfa(title: 'Öğrenci Ana Sayfa'),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  bool isFirebaseInitialized = false;
+  @override
+  void initState() {
+    super.initState();
+    initializeFirebase();
+  }
+
+  Future<void> initializeFirebase() async {
+    await Firebase.initializeApp();
+    setState(() {
+      isFirebaseInitialized = true;
+    });
+    if (FirebaseAuth.instance.currentUser != null) {
+      anaSayfayaGit();
+    }
+  }
+
+  void anaSayfayaGit() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const AnaSayfa(title: 'Öğrenci Ana Sayfa'),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: isFirebaseInitialized
+            ? ElevatedButton(
+                onPressed: () async {
+                  await signInWithGoogle();
+                  anaSayfayaGit();
+                },
+                child: const Text('Google Sign In'))
+            : const CircularProgressIndicator(),
+      ),
     );
   }
 }
