@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:700345841342:android:ed70dcddc12765453cd0ef",
+        "mobilesdk_app_id": "1:700345841342:android:aeec7af2afc780923cd0ef",
         "android_client_info": {
           "package_name": "com.example.ogrenci_uyg"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "700345841342-tp44o76eb71fqe7eqtp3gr0t9bmtdord.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ogrenci_uyg",
+            "certificate_hash": "a27dd65e72b92c935fb157e5587437872f78ad78"
+          }
+        },
         {
           "client_id": "700345841342-cl8viq727stthli4dnjic088dltt8taa.apps.googleusercontent.com",
           "client_type": 3

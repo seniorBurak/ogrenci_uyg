@@ -121,11 +121,11 @@ class AnaSayfa extends ConsumerWidget {
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Öğrenci Adı'),
+              child: Text(FirebaseAuth.instance.currentUser!.displayName!),
             ),
             ListTile(
               title: const Text('Öğrenciler'),
@@ -143,6 +143,17 @@ class AnaSayfa extends ConsumerWidget {
               title: const Text('Mesajlar'),
               onTap: () {
                 _mesajlaraGit(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Çıkış yap'),
+              onTap: () async {
+                await singOutWithGoogle();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const SplashScreen(),
+                  ),
+                );
               },
             ),
           ],
