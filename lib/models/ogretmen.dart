@@ -14,7 +14,7 @@ class Ogretmen {
           m['cinsiyet'],
         );
 
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'ad': ad,
       'soyad': soyad,

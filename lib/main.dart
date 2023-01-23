@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,19 @@ class _SplashScreenState extends State<SplashScreen> {
             ? ElevatedButton(
                 onPressed: () async {
                   await signInWithGoogle();
+
+                  String uid = FirebaseAuth.instance.currentUser!.uid;
+                  await FirebaseFirestore.instance
+                      .collection('kullanıcılar')
+                      .doc(uid)
+                      .set(
+                    {
+                      'girişYaptiMi': true,
+                      'sonGirisTarihi': FieldValue.serverTimestamp(),
+                    },
+                    SetOptions(merge: true),
+                  );
+
                   anaSayfayaGit();
                 },
                 child: const Text('Google Sign In'))

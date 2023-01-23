@@ -144,12 +144,7 @@ class _OgretmenFormState extends ConsumerState<OgretmenForm> {
     }
   }
 
-  int i = 0;
   Future<void> gercektenKaydet() async {
-    i++;
-    if (i < 3) {
-      throw 'Kayıt yapılamadı.';
-    }
     await ref.read(dataServiceProvider).ogretmenEkle(Ogretmen.fromMap(girilen));
   }
 }
