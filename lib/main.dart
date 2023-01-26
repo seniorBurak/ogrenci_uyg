@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ogrenci_uyg/pages/mesajlar_sayfasi.dart';
@@ -245,6 +247,7 @@ class _UserHeaderState extends State<UserHeader> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(FirebaseAuth.instance.currentUser!.displayName!),
+          Text(FirebaseAuth.instance.currentUser!.email!),
           const SizedBox(
             height: 10,
           ),
@@ -276,9 +279,7 @@ class _UserHeaderState extends State<UserHeader> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     final picInMemory = snapshot.data!;
-                    return CircleAvatar(
-                      backgroundImage: MemoryImage(picInMemory),
-                    );
+                    return MovingAvatar(picInMemory: picInMemory);
                   }
                   return const CircleAvatar(
                     child: Text('BD'),
@@ -286,6 +287,55 @@ class _UserHeaderState extends State<UserHeader> {
                 }),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MovingAvatar extends StatefulWidget {
+  const MovingAvatar({
+    Key? key,
+    required this.picInMemory,
+  }) : super(key: key);
+
+  final Uint8List picInMemory;
+
+  @override
+  State<MovingAvatar> createState() => _MovingAvatarState();
+}
+
+class _MovingAvatarState extends State<MovingAvatar>
+    with SingleTickerProviderStateMixin<MovingAvatar> {
+  late Ticker _ticker;
+
+  double yataydaKonum = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker((Duration elapsed) {
+      final aci = pi *
+          elapsed.inMicroseconds /
+          const Duration(seconds: 1).inMicroseconds;
+
+      setState(() {
+        yataydaKonum = sin(aci) * 30 + 30;
+      });
+    });
+    _ticker.start();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: yataydaKonum),
+      child: CircleAvatar(
+        backgroundImage: MemoryImage(widget.picInMemory),
       ),
     );
   }
